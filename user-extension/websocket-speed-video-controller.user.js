@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WebSocket video speed controller
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.2.1
 // @description  try to take over the world!
 // @author       You
 // @match        file://*/*
@@ -80,16 +80,20 @@
     }
 
 
-    // Launch WebSocket
-    const socket = new WebSocket(wss);
+    function setUpWSS() {
+        // Launch WebSocket
+        const socket = new WebSocket(wss);
 
-    socket.addEventListener('open', function (event) {
-        socket.send('player');
-    });
+        socket.addEventListener('open', function (event) {
+            socket.send('player');
+        });
 
-    socket.addEventListener('message', function (event) {
-        dataHandler(event.data);
-    });
+        socket.addEventListener('message', function (event) {
+            dataHandler(event.data);
+        });
+    }
+
+    setTimeout(setUpWSS, 1000);
 
 
 })();
