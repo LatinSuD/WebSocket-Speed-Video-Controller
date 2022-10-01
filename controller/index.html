@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controller</title>
+</head>
+<style>
+BODY {
+	 background-color: black;
+	 color: white;
+
+	 /* prevent swipe-down reload */
+	 overscroll-behavior-y: contain;
+}
+
+</style>
+<body>
+	<img style="position: absolute; left: 50%; top: 0; height: 100%; width: 1em" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="/>
+	<div id=statusElem></div>
+
+	<script>
+
+	statusElem = document.getElementById('statusElem');
+
+	const socket = new WebSocket('wss://192.168.0.251:8000');
+
+	socket.addEventListener('open', function (event) {
+	    socket.send('controller');
+	});
+	 
+	socket.addEventListener('message', function (event) {
+	    console.log(event.data);
+	});
+
+
+
+
+	async function i_cant_get_no_sleep() {
+		// Create a reference for the Wake Lock.
+		let wakeLock = null;
+				//statusElem.textContent += 'Hello! | ';
+		// create an async function to request a wake lock
+		try {
+		  wakeLock = navigator.wakeLock.request('screen');
+		  //statusElem.textContent += 'Wake Lock is active! | ';
+		} catch (err) {
+		  // The Wake Lock request has failed - usually system related, such as battery.
+				statusElem.textContent += `${err.name}, ${err.message}`;
+		}
+	}
+
+	i_cant_get_no_sleep();
+
+
+	function clickevtmove(e) {
+	    var x=-1;
+	    
+	    if (e.offsetX)
+		x=e.offsetX;
+	    else
+		for (evt=0; evt<e.changedTouches.length; evt++) {
+		    x=e.changedTouches[evt].clientX;
+		}
+
+	    var x2 = x / window.innerWidth;
+	    if (x2 > 0.6 || x2 < 0.4)
+		document.body.style.backgroundColor="#888";
+	    else
+		document.body.style.backgroundColor="#000";
+
+	    socket.send(x2);
+
+	}
+	    
+
+	addEventListener('touchmove', clickevtmove, false);
+	addEventListener('touchstart', clickevtmove, false);
+	addEventListener('mousemove', clickevtmove, false);
+</script>
+</html>
