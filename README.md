@@ -13,10 +13,18 @@ This project has 3 parts:
 - A PC capable of running Python and serve Web Pages
 
 
-# Instructions
-1. Install this extension on Tampermonkey
-1. Go to Youtube, play a video and start messing with your knob. The playback speed of the video should change accordingly.
-1. TODO
+# Install instructions
+1. Install the extension on Tampermonkey
+1. (Optional) Generate new certificates
+1. Configure a Web server on your PC to serve the HTML pages (using HTTPS).
+1. Edit "index.html" so it matches the IP of your PC.
+1. Run the python part
+
+# Usage instructions
+1. In the PC make sure that you can access https://localhost (accept SSL warnings).
+1. In your smartphone accept SSL warnings of the WebSocket (eg: https://192.168.1.33:8000), then close the tab.
+1. In your smartphone open the HTML page (eg: https://192.168.1.33) and accept SSL warnings.
+1. In your PC go to Youtube, play a video and start swiping in your phone. The playback speed of the video should change accordingly.
 
 # Demo
 
