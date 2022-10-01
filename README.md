@@ -10,7 +10,7 @@ This project has 3 parts:
 - A browser (currently tested on Chrome)
 - A user script engine extension installed in the browser (currently tested with Tampermoneky)
 - A smartphone
-- A PC capable of running Python
+- A PC capable of running Python and serve Web Pages
 
 
 # Instructions
