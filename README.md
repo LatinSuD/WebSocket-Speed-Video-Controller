@@ -17,7 +17,7 @@ This project has 3 parts:
 1. Install the extension on Tampermonkey
 1. (Optional) Generate new certificates
 1. Configure a Web server on your PC to serve the HTML pages (using HTTPS).
-1. Edit "index.html" so it matches the IP of your PC.
+1. Edit "index.html" (the line that contains the function "WebSocket") so it matches the IP of your PC.
 1. Run the python part
 
 # Usage instructions
