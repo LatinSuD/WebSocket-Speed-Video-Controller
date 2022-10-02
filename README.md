@@ -10,20 +10,18 @@ This project has 3 parts:
 - A browser (currently tested on Chrome)
 - A user script engine extension installed in the browser (currently tested with Tampermoneky)
 - A smartphone
-- A PC capable of running Python and serve Web Pages
+- A PC capable of running Python
+- Python websockets 8.1 (may work with other versions).
 
 
 # Install instructions
 1. Install the extension on Tampermonkey
-1. (Optional) Generate new certificates
-1. Configure a Web server on your PC to serve the HTML pages (using HTTPS).
-1. Edit "index.html" (the line that contains the function "WebSocket") so it matches the IP of your PC.
-1. Run the python part
+1. (Optional) Generate new certificates: `openssl  req  -x509  -nodes  -newkey rsa:2048  -keyout cert.key  -out cert.crt  -days 365  -subj "/C=US/ST=/L=/O=/OU=/CN=mywebsocket"`
+1. Run the python script
 
 # Usage instructions
-1. In the PC make sure that you can access https://localhost (accept SSL warnings).
-1. In your smartphone accept SSL warnings of the WebSocket (eg: https://192.168.1.33:8000), then close the tab.
-1. In your smartphone open the HTML page (eg: https://192.168.1.33) and accept SSL warnings.
+1. In the PC make sure that you can access https://localhost:8000 (accept SSL warnings).
+1. In your smartphone accept SSL warnings of the WebSocket (eg: https://192.168.1.33:8000/websocket-speed-video-controller)
 1. In your PC go to Youtube, play a video and start swiping in your phone. The playback speed of the video should change accordingly.
 
 # Demo
