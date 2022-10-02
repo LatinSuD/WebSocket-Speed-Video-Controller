@@ -8,16 +8,20 @@
     <title>Controller</title>
 </head>
 <style>
-BODY {
-	 background-color: black;
-	 color: white;
+ BODY {
+                 background-color: black;
+                 color: white;
 
-	 /* prevent swipe-down reload */
-	 overscroll-behavior-y: contain;
+                 /* prevent swipe-down reload */
+                 overscroll-behavior-y: none;
+                 overscroll-behavior-x: none;
+                 user-select: none;
+  }
 
-	 user-select: none;
-}
-
+  HTML {
+                 overscroll-behavior-y: none;
+                 overscroll-behavior-x: none;
+  }
 </style>
 <body>
 	<img style="position: absolute; left: 50%; top: 20%; height: 80%; width: 1em" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="/>
