@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WebSocket video speed controller
 // @namespace    http://tampermonkey.net/
-// @version      0.2.1
+// @version      0.2.2
 // @description  try to take over the world!
 // @author       You
 // @match        file://*/*
@@ -40,11 +40,56 @@
         }
     }
 
+    function dataHandler(data) {
+        if (!document.hasFocus()) return;
+        switch(data[0]) {
+            case "s":
+                speedHandler(data);
+                break;
+            case "f":
+                frameHandler(data);
+                break;
+            case "p":
+                pauseHandler(data);
+                break;
+        }
+    }
+
+    function pauseHandler(data) {
+        var valor = data.replace(/^p /,"");
+        document.querySelectorAll('video').forEach(function(aVideo) {
+            if (aVideo.paused && aVideo.readyState > 2) {
+                console.log("PLAY");
+                aVideo.play()
+            } else if (!aVideo.paused && aVideo.readyState > 2){
+                console.log("PAUSE");
+                aVideo.pause()
+            }
+        })
+    }
+
+    function frameHandler(data) {
+        var valor = data.replace(/^f /,"");
+        console.log("SEEK");
+        var seek=0;
+        if ( valor > 0.5 ) seek = -0.03
+        if ( valor < 0.5 ) seek = 0.03
+        document.querySelectorAll('video').forEach(function(aVideo) {
+            if (seek && aVideo.paused && aVideo.readyState > 2) {
+                console.log("SEEK 2");
+                aVideo.currentTime += seek;
+            } else if (seek && !aVideo.paused && aVideo.readyState > 2) {
+                console.log("SEEK 3: "+  (valor-0.5)*10);
+                aVideo.currentTime += (valor-0.5)*10;
+            }
+        })
+    }
 
     // WebSocket received data
-    function dataHandler(valor2) {        
+    function speedHandler(valor2) {
         var valor3;
 
+        valor2 = valor2.replace(/^s /,"");
         if (invert)
             valor2 = 1-valor2;
 
