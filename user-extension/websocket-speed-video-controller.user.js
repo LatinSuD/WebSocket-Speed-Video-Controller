@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         WebSocket video speed controller
 // @namespace    http://tampermonkey.net/
-// @version      0.2.2
-// @description  try to take over the world!
+// @version      0.2.3
+// @description  Control video playback using your smartphone as a remote.
 // @author       You
 // @match        file://*/*
 // @match        http://*/*
