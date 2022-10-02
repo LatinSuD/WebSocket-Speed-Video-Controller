@@ -72,8 +72,8 @@
         var valor = data.replace(/^f /,"");
         console.log("SEEK");
         var seek=0;
-        if ( valor > 0.5 ) seek = -0.03
-        if ( valor < 0.5 ) seek = 0.03
+        if ( valor < 0.5 ) seek = -0.03
+        if ( valor > 0.5 ) seek = 0.03
         document.querySelectorAll('video').forEach(function(aVideo) {
             if (seek && aVideo.paused && aVideo.readyState > 2) {
                 console.log("SEEK 2");
