@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +14,20 @@ BODY {
 
 	 /* prevent swipe-down reload */
 	 overscroll-behavior-y: contain;
+
+	 user-select: none;
 }
 
 </style>
 <body>
-	<img style="position: absolute; left: 50%; top: 0; height: 100%; width: 1em" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="/>
+	<img style="position: absolute; left: 50%; top: 20%; height: 80%; width: 1em" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="/>
+	<img style="position: absolute; left: 0; top: 50%; height: 1em; width: 100%" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="/>
+	<img style="position: absolute; left: 0; top: 20%; height: 1em; width: 100%" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="/>
+	<div style="position: absolute; left: calc(25% - 0.4em); top: 30%; font-size: xx-large">&lt;&lt;</div>
+	<div style="position: absolute; left: calc(75% - 0.4em); top: 30%; font-size: xx-large">&gt;&gt;</div>
+	<div style="position: absolute; left: calc(25% - 0.2em); top: 75%; font-size: xx-large">-</div>
+	<div style="position: absolute; left: calc(75% - 0.2em); top: 75%; font-size: xx-large">+</div>
+	<div style="position: absolute; left: calc(50% - 0.2em); top: 5%; font-size: xx-large">||</div>
 	<div id=statusElem></div>
 
 	<script>
@@ -55,22 +65,43 @@ BODY {
 
 
 	function clickevtmove(e) {
+	 /*if (!event.target || event.target.tagName != "HTML") {
+    		return;
+	  }*/
+
 	    var x=-1;
-	    
-	    if (e.offsetX)
-		x=e.offsetX;
-	    else
+	   
+	
+
+	    if (e.clientX) {
+		x=e.clientX;
+		y=e.clientY;
+				    console.log("X " +x);
+	    } else {
 		for (evt=0; evt<e.changedTouches.length; evt++) {
 		    x=e.changedTouches[evt].clientX;
+		    y=e.changedTouches[evt].clientY;
 		}
+	    }
 
 	    var x2 = x / window.innerWidth;
-	    if (x2 > 0.6 || x2 < 0.4)
-		document.body.style.backgroundColor="#888";
-	    else
-		document.body.style.backgroundColor="#000";
 
-	    socket.send(x2);
+	    if (y < window.innerHeight/5) {
+	    	if (e.type=="touchstart")
+			socket.send("p0");
+	    } else if (y < window.innerHeight/2) {
+		if (e.type=="touchstart") {
+			socket.send("f " + x2);
+		}
+	    } else {
+		    if (x2 > 0.6 || x2 < 0.4)
+			document.body.style.backgroundColor="#888";
+		    else
+			document.body.style.backgroundColor="#000";
+
+		    socket.send("s " + x2);
+	    }
+
 
 	}
 	    
