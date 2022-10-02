@@ -17,6 +17,7 @@ async def echo(websocket, something):
 
     # Bucle infinito asincrono
     async for message in websocket:
+        #print("Message: ", message)
         if (message == "controller"):
             sockets[websocket] = "controller"
             print("New controller connected")
@@ -25,15 +26,15 @@ async def echo(websocket, something):
             sockets[websocket] = "player"
             print("New player connected")
             pprint(sockets)
-        #print("Message: ", message)
-        for ws in sockets:
-            if sockets[ws] == "player":
-                try:
-                    await ws.send(message)
-                except:
-                    # Websocket was probably closed. Mark as unused
-                    print("Excepcion")
-                    sockets[ws]=None
+        else:
+            for ws in sockets:
+                if sockets[ws] == "player":
+                    try:
+                        await ws.send(message)
+                    except Exception as e:
+                        # Websocket was probably closed. Mark as unused
+                        print("Excepcion" + str(e))
+                        sockets[ws]=None
 
 
 async def main():
