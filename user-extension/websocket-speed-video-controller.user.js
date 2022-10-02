@@ -28,18 +28,8 @@
 
     var myTimer = null;
 
-    function timerHandler() {
-        if (desiredSpeed && ( desiredSpeed != lastSetSpeed )) {
-            document.querySelectorAll('video').forEach(function(aVideo) {
-                if (!aVideo.paused && !aVideo.ended && aVideo.readyState > 2) {
-                    lastSetSpeed=desiredSpeed;
-                    aVideo.playbackRate=desiredSpeed;
-                    console.log("WebSocket Set speed to " + desiredSpeed);
-                }
-            })
-        }
-    }
-
+    
+    // main handler
     function dataHandler(data) {
         if (!document.hasFocus()) return;
         switch(data[0]) {
@@ -55,6 +45,7 @@
         }
     }
 
+    // handle pause requests
     function pauseHandler(data) {
         var valor = data.replace(/^p /,"");
         document.querySelectorAll('video').forEach(function(aVideo) {
@@ -68,6 +59,7 @@
         })
     }
 
+    // handle seek requests (both large and 1-frame)
     function frameHandler(data) {
         var valor = data.replace(/^f /,"");
         console.log("SEEK");
@@ -85,7 +77,7 @@
         })
     }
 
-    // WebSocket received data
+    // handle speed change requests
     function speedHandler(valor2) {
         var valor3;
 
@@ -124,7 +116,21 @@
         }
     }
 
-
+    // rate limit speed changes
+    function timerHandler() {
+        if (desiredSpeed && ( desiredSpeed != lastSetSpeed )) {
+            document.querySelectorAll('video').forEach(function(aVideo) {
+                if (!aVideo.paused && !aVideo.ended && aVideo.readyState > 2) {
+                    lastSetSpeed=desiredSpeed;
+                    aVideo.playbackRate=desiredSpeed;
+                    console.log("WebSocket Set speed to " + desiredSpeed);
+                }
+            })
+        }
+    }
+    
+    
+    // Initialize Websocket
     function setUpWSS() {
         // Launch WebSocket
         const socket = new WebSocket(wss);
